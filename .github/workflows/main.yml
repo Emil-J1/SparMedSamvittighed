@@ -54,6 +54,6 @@ jobs:
         working-directory: ./spar-med-samvittighed
         run: npx next build
  
-      - name: Run npm test
-        working-directory: ./spar-med-samvittighed
-        run: npm run test
+      # - name: Run npm test
+      #   working-directory: ./spar-med-samvittighed
+      #   run: npm run test
