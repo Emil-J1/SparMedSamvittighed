@@ -1,4 +1,4 @@
-version: "3.5"
+version: "25.0.5"
 
 services:
   app:
@@ -11,13 +11,10 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-    develop:
-      watch:
-      - action: sync
-        path: ./app
-        target: /src/app
-        ignore:
-          - node_modules/
-      - action: rebuild
-        path: package.json
-
+  watcher:
+    image: node:latest
+    volumes:
+      - .:/src/app
+      - /src/app/node_modules
+    working_dir: /src/app
+    command: ["npm", "run", "watch"]
