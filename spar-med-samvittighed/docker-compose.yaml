@@ -17,4 +17,4 @@ services:
       - .:/src/app
       - /src/app/node_modules
     working_dir: /src/app
-    command: ["npm", "run", "watch"]
+    command: ["npm", "run"]
