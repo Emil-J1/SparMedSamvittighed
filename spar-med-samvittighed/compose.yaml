@@ -1,0 +1,24 @@
+version: "3.9" # Adjust if needed for your Docker Compose version
+
+services:
+  nextjs-app:
+    build:
+      context: ./
+      target: dev
+      dockerfile: Dockerfile # Build from the current directory (optional if using Docker Compose)
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000:3000 # Map host port 3000 to container port 3000
+    develop:
+      watch:
+        - path: ./package.json
+          action: rebuild
+        - path: ./src/app
+          action: sync
+
+    #volumes:
+    # - nextjs-app:/app # Mount the current directory as /app in the container with sync mode
+    #- /app/node_modules
+    #- /app/.next
+    command: npm run dev
