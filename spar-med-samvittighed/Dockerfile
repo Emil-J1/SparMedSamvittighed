@@ -10,4 +10,4 @@ RUN npm install
 COPY . .
  
 # Define a start script to run the watcher
-CMD ["npm", "run"]
+CMD ["npm", "run", "dev"]
