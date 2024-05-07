@@ -1,6 +1,6 @@
 export default function Profile() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <section className="flex min-h-screen flex-col items-center justify-between p-24">
       <div>
         <h1>Brand</h1>
       </div>
@@ -10,6 +10,6 @@ export default function Profile() {
       <div>
         <h3>products</h3>
       </div>
-    </main>
+    </section>
   );
 }
