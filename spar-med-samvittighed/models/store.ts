@@ -11,11 +11,13 @@ interface Store {
         type: String,
         required: [true, 'Brand is required!'],
         enum: ['bilka', 'foetex', 'netto'], 
+        match: /^(bilka|foetex|netto)$/
     },
     name: {
       type: String,
       unique: true,
       required: [true, 'Name is required!'],
+      match: /^[a-zA-Z0-9\-_]+$/
     },
   });
     
