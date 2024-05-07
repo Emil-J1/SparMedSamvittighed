@@ -1,15 +1,18 @@
 import { Schema, model } from 'mongoose';
 
-interface Store {
-  street_address: String;
-  state: String;
-  postal_code: String;
-  country: String;
-  location: String;
-
+interface Address {
+  street_address: string;
+  city: string;
+  state: string;
+  postal_code: string;
+  country: string;
+  location?: { // Optional location details (consider using GeoJSON for geospatial data)
+    type: { type: string; default: "Point" };
+    coordinates: number[];
+  };
 }  
 
-const addressSchema = new Schema<address>({
+const AddressSchema = new Schema<Address>({
   street_address: String, // Street address
   city: String, // City name
   state: String, // State or province abbreviation (optional)
@@ -31,4 +34,4 @@ const addressSchema = new Schema<address>({
 });
 
 
-export const Address = model<Address>('Address', addressSchema);
+export const Address = model<Address>("Address", AddressSchema);
