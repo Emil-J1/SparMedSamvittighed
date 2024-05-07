@@ -5,7 +5,7 @@ interface ProductProp {
   }
 
 export default function ProductDetails({ params } : ProductProp){
-    return( <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    return( <section className="flex min-h-screen flex-col items-center justify-between p-24">
         <h1> Your favorites {params.favoriteId} </h1>
-         </main>);
+         </section>);
 }
