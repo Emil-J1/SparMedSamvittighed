@@ -21,3 +21,4 @@ const UserSchema = new Schema<User>({
 
 // Export the compiled Mongoose model
 export const User = model<User>('User', UserSchema);
+

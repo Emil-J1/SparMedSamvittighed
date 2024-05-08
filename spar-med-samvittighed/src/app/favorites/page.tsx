@@ -1,6 +1,6 @@
 export default function Favorites() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-white">
+    <div className="flex min-h-screen flex-col items-center justify-between p-24 bg-white">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-8">Favorites</h1>
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
@@ -49,6 +49,6 @@ export default function Favorites() {
           {/* Repeat the same modifications for the other food items */}
         </div>
       </div>
-    </main>
+    </div>
   );
 }
