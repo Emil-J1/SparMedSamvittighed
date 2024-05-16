@@ -32,7 +32,7 @@ const MyComponent: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const token = '${{ secrets.SALLINGGROUP }}'; // Replace 'YOUR_BEARER_TOKEN_HERE' with your actual bearer token
+                const token = '034a1ccb-ee77-48b1-a842-31d34068d90a'; // Replace 'YOUR_BEARER_TOKEN_HERE' with your actual bearer token
                 const response = await fetch('https://api.sallinggroup.com/v1/food-waste/?zip=9000&radius=5', {
                     headers: {
                         Authorization: `Bearer ${token}`
