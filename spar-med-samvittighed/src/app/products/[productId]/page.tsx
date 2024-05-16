@@ -1,14 +1,20 @@
-import Product from '../../comps/Product'
+import ProductPage from "@/comps/Product";
 
-interface ProductProp {
-    params: {
-      productId: string;
-    };
-  }
-
-export default function ProductDetails({ params } : ProductProp){
-    return( <section className="flex min-h-screen flex-col items-center justify-between p-24">
-        <h1> Info about the product {params.productId} </h1>
-        <Product />
-         </section>);
+interface ProductDetailsProps {
+  params: {
+    productId: string;
+  };
 }
+
+const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
+  const { productId } = params;
+
+  return (
+    <section className="flex min-h-screen flex-col items-center justify-between p-24">
+      <h1> Produkt EAN: {productId} </h1>
+      <ProductPage productId={productId} />
+    </section>
+  );
+};
+
+export default ProductDetails;

@@ -1,4 +1,4 @@
-import ProductList from "@/app/comps/ProductList";
+import ProductList from "@/comps/ProductList";
 
 export default function Products() {
   return (
