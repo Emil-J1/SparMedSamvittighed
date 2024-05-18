@@ -1,12 +1,15 @@
-import ProductList from "@/app/comps/ProductList";
+import TestingProductList from "@/app/comps/TestingProductList";
+import Searchbar from "../comps/Searchbar";
 
 export default function Products() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between p-24">
-        <h1>Products</h1>
-        <ProductList>
+    <section className="flex min-h-screen flex-col items-center justify-between p-24">
+      
+      <Searchbar></Searchbar>
+
+        <TestingProductList>
             {/* ProductList component */}
-        </ProductList>
-    </div>
+        </TestingProductList>
+    </section>
   );
 }
