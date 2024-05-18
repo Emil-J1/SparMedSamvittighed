@@ -15,21 +15,30 @@ export async function GET()
 export async function POST(request: Request)
 {
     try {
-        const data = await request.json();
+
+        // Read data off request body
+        const body = await request.json();
+        const typedBody: { email: string; username: string } = body;
+        const { email, username } = typedBody;
+
+        // Then valid data
+
+        
         // Await database
         await connectToDB
-    
-        // Creates the user from database
-        const user = await User.create(data);  
+        
+        // Creates the user in database
+        const createdUser = await User.create({ email, username }); 
 
+        // return user
         return NextResponse.json({
             message: 'User created successfully!',
-            user: user
+            user: createdUser
           });
 
-    } catch (error) {
+    } catch (error: any) {
         return NextResponse.json({
-            error: error
+            message: error.message
         })    
     }   
 }
