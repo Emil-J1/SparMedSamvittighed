@@ -2,76 +2,85 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
+interface ClearanceOffer {
+  currency: string;
+  discount: number;
+  ean: string;
+  endTime: string;
+  lastUpdate: string;
+  newPrice: number;
+  originalPrice: number;
+  percentDiscount: number;
+  startTime: string;
+  stock: number;
+  stockUnit: string;
+}
+
+interface ClearanceProduct {
+  categories: { [key: string]: string };
+  description: string;
+  ean: string;
+  image: string;
+}
+
 interface Clearance {
-  offer: {
-    currency: string;
-    discount: number;
-    ean: string;
-    endTime: string;
-    lastUpdate: string;
-    newPrice: number;
-    originalPrice: number;
-    percentDiscount: number;
-    startTime: string;
-    stock: number;
-    stockUnit: string;
-  };
-  product: {
-    categories: { [key: string]: string };
-    description: string;
-    ean: string;
-    image: string;
+  offer: ClearanceOffer;
+  product: ClearanceProduct;
+}
+
+interface Store {
+  id: string;
+  name: string;
+  address: {
+    street: string;
   };
 }
 
 interface StoreData {
-  store: {
-    name: string;
-    id: string; // Added store ID
-    address: {
-      street: string;
-    };
-  };
-  clearances: Clearance[]; // Array of Clearance objects
+  store: Store;
+  clearances: Clearance[];
 }
 
-const StoreProductList: React.FC = () => {
+interface StoreProductListProps {
+  storeId: string;
+}
+
+const StoreProductList: React.FC<StoreProductListProps> = ({ storeId }) => {
   const [storeData, setStoreData] = useState<StoreData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const token = "034a1ccb-ee77-48b1-a842-31d34068d90a"; // Replace with your actual bearer token
-        const storeId = 'd6abf195-312b-4818-8933-bda8ecdd9fbd'; // The specific store ID
         const response = await fetch(
-          `https://api.sallinggroup.com/v1/food-waste/${storeId}`,
+          `https://api.sallinggroup.com/v1/food-waste/${storeId}`, // Adjust the URL according to API specs
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
+
         if (!response.ok) {
-          throw new Error("Failed to fetch data");
+          const errorText = await response.text();
+          throw new Error(`Failed to fetch data: ${response.status} ${response.statusText} - ${errorText}`);
         }
-        const data = await response.json();
+
+        const data: StoreData = await response.json();
+        console.log("Fetched store data:", data); // Log fetched data
         setStoreData(data);
       } catch (error) {
-        setError(error as Error);
+        setError(error.message);
+        console.error('Fetch error:', error);
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchData();
-
-    // Cleanup function to cancel fetch request if component unmounts
-    return () => {
-      // Your cleanup code here, for example, cancelling any ongoing requests
-    };
-  }, []); // Empty dependency array means this effect runs only once after the initial render
+  }, [storeId]); // Include storeId in the dependency array to fetch data when it changes
 
   if (isLoading) {
     return (
@@ -84,15 +93,19 @@ const StoreProductList: React.FC = () => {
 
   if (error) {
     return (
-      <div className="text-center p-4 text-red-500">Error: {error.message}</div>
+      <div className="text-center p-4 text-red-500">Error: {error}</div>
     );
+  }
+
+  if (!storeData) {
+    return null; // or some fallback UI
   }
 
   return (
     <>
-      <h2 className="text-2xl font-bold mb-1">{storeData?.store?.name}</h2>
-      <h2 className="text-1xl mb-12">{storeData?.store.address.street}</h2>
-      {storeData?.clearances && (
+      <h2 className="text-2xl font-bold mb-1">{storeData.store.name}</h2>
+      <h2 className="text-1xl mb-12">{storeData.store.address.street}</h2>
+      {storeData.clearances && storeData.clearances.length > 0 ? (
         <>
           <h2 className="text-xl font-bold mb-4">Nedsatte produkter:</h2>
           <ul className="list-disc space-y-2">
@@ -119,10 +132,10 @@ const StoreProductList: React.FC = () => {
                     <p className="font-medium">
                       Nedsat pris: {clearance.offer.newPrice} kr
                     </p>
-                    {clearance.offer?.endTime && (
+                    {clearance.offer.endTime && (
                       <p>
                         Udløbsdato:{" "}
-                        {new Date(clearance.offer?.endTime).toLocaleDateString(
+                        {new Date(clearance.offer.endTime).toLocaleDateString(
                           "da-DK"
                         )}
                       </p>
@@ -133,6 +146,8 @@ const StoreProductList: React.FC = () => {
             </div>
           </ul>
         </>
+      ) : (
+        <p>Ingen nedsatte produkter fundet.</p>
       )}
     </>
   );
