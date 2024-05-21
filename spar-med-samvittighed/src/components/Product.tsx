@@ -96,3 +96,4 @@ const Product: React.FC<ProductPageProps> = ({ storeId, productId }) => {
 };
 
 export default Product;
+
