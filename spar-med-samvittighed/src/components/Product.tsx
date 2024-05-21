@@ -28,7 +28,7 @@ interface ProductPageProps {
   productId: string;
 }
 
-const ProductPage: React.FC<ProductPageProps> = ({ storeId, productId }) => {
+const Product: React.FC<ProductPageProps> = ({ storeId, productId }) => {
   const [data, setData] = useState<Clearance | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
@@ -95,4 +95,5 @@ const ProductPage: React.FC<ProductPageProps> = ({ storeId, productId }) => {
   );
 };
 
-export default ProductPage;
+export default Product;
+

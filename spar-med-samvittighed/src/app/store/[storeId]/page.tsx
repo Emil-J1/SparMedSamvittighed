@@ -1,4 +1,4 @@
-import StoreProductList from "@/comps/StoreProductList";
+import StoreProductList from "@/components/StoreProductList";
 
 interface StoreProp {
   params: {
