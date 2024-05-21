@@ -15,5 +15,7 @@ RUN npm install
 # Nedenfor kopieres alle applikationens filer for, at kunne starte en identisk virtuel applikation i en container.
 COPY . .
  
-# Nedenfor defineres hvilke kommandoer, som skal køres inde i containeren for at starte applikationen i udviklingsmode.
+# Nedenfor defineres hvilke kommandoer, som skal køres inde i containeren for at starte applikationen under udvikling.
 CMD ["npm", "run", "dev"]
+
+
