@@ -21,6 +21,7 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "database/connectiontest.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "database/connectiontest.js", "src/app/api/hello/route.ts", "src/app/pages/api/hello.ts"],
   "exclude": ["node_modules"]
+  
 }

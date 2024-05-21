@@ -9,9 +9,10 @@ export const connectToDB = async () => {
     console.log('MongoDB is already connected');
     return;
   }
-  
+
   try {
-    await mongoose.connect((process.env.MONGODB_URI as string), { // Type assertion
+    console.log('Connecting to MongoDB:', process.env.MONGODB_URI); // Log the connection string
+    await mongoose.connect(process.env.MONGODB_URI as string, {
       dbName: "share_prompt",
     });
 
@@ -19,5 +20,8 @@ export const connectToDB = async () => {
     console.log('MongoDB connected');
   } catch (error) {
     console.error('Error connecting to MongoDB:', error);
+    throw new Error('Error connecting to MongoDB:');
   }
 };
+
+
