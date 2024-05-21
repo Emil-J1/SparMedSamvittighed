@@ -18,5 +18,9 @@ interface Store {
       required: [true, 'Name is required!'],
     },
   });
-    
+
+
+
+ 
+
 export const Store = model<Store>('Store', StoreSchema);
