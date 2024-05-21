@@ -1,15 +1,10 @@
-export default function Profile() {
+import StoreList from "@/comps/StoreList";
+
+export default function StoreListPage() {
   return (
-    <section className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div>
-        <h1>Brand</h1>
-      </div>
-      <div>
-        <h1>Info om butik</h1>
-      </div>
-      <div>
-        <h3>products</h3>
-      </div>
-    </section>
+    <div className="flex min-h-screen flex-col items-center justify-between p-24">
+      <h1 className="flex justify-center text-3xl pb-12">Butikker</h1>
+        <StoreList />
+    </div>
   );
 }
