@@ -1,4 +1,4 @@
-import Product from '../../comps/Product'
+import Product from '@/app/comps/product'
 
 interface ProductProp {
     params: {
