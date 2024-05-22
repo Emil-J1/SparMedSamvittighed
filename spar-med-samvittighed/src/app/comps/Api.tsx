@@ -44,7 +44,7 @@ const MyComponent: React.FC = () => {
                 const result = await response.json();
                 setData(result);
                 console.log(result)
-            } catch (error) {
+            } catch (error:any) {
                 setError(error);
             } finally {
                 setIsLoading(false);

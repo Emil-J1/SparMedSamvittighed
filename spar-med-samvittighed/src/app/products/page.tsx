@@ -1,3 +1,5 @@
+"use client"
+
 import ProductList from "@/app/comps/ProductList";
 
 export default function Products() {
