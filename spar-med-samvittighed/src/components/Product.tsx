@@ -51,8 +51,8 @@ const Product: React.FC<ProductPageProps> = ({ storeId, productId }) => {
         const specificProduct = result.clearances.find((clearance: Clearance) => clearance.product.ean === productId);
         
         setData(specificProduct);
-      } catch (error) {
-        setError(error);
+      } catch (error:any) {
+        setError(error instanceof Error ? error : new Error('Beklager men butikken kunne ikke findes.'));
       } finally {
         setIsLoading(false);
       }
