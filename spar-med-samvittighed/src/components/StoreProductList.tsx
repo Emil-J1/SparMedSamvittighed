@@ -72,8 +72,9 @@ const StoreProductList: React.FC<StoreProductListProps> = ({ storeId }) => {
         console.log("Fetched store data:", data); // Log fetched data
         setStoreData(data);
       } catch (error) {
-        setError(error.message);
-        console.error('Fetch error:', error);
+        if (error instanceof Error) {
+          setError(error.message);
+        } 
       } finally {
         setIsLoading(false);
       }

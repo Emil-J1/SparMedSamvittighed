@@ -21,7 +21,11 @@ interface StoreData {
   };
 }
 
-export default function Stores() {
+interface StoreListProps {
+  zipCode: string;
+}
+
+export default function StoreList({ zipCode }: StoreListProps) {
   const [storeData, setStoreData] = useState<StoreData[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
@@ -31,7 +35,7 @@ export default function Stores() {
       try {
         const token = "034a1ccb-ee77-48b1-a842-31d34068d90a"; // Replace with your actual bearer token
         const response = await fetch(
-          `https://api.sallinggroup.com/v1/food-waste/?geo=57.020893,9.884766&radius=5`,
+          `https://api.sallinggroup.com/v1/food-waste/?zip=${zipCode}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -42,8 +46,8 @@ export default function Stores() {
           throw new Error("Failed to fetch data");
         }
         const data = await response.json();
-        console.log("Fetched data:", data); // Log the data here
-        setStoreData(data); // Ensure data is in the expected format
+        console.log("Fetched data:", data);
+        setStoreData(data);
       } catch (error) {
         setError(error as Error);
       } finally {
@@ -53,11 +57,10 @@ export default function Stores() {
 
     fetchData();
 
-    // Cleanup function to cancel fetch request if component unmounts
     return () => {
-      // Your cleanup code here, for example, cancelling any ongoing requests
+
     };
-  }, []);
+  }, [zipCode]);
 
   if (isLoading) {
     return (
@@ -84,19 +87,18 @@ export default function Stores() {
               className="bg-white text-black py-10 p-4 border rounded-lg"
             >
               <a href={`store/${store.store.id}/`}>
-
-              <h1 className="flex justify-center text-xl mb-4">
-                {store.store.name}
-              </h1>
-              <h3>
-                {store.store.address.city} - {store.store.address.zip}
-              </h3>
-              <h3>{store.store.address.street}</h3>
-              <div className="flex justify-between pt-5">
-                <h3>Åbent: {store.store.hours[0]?.closed ? "Nej" : "Ja"}</h3>
-                <h3>Åbningstider: {store.store.hours[0]?.open || "N/A"}</h3>
-              </div>
-              <h3>{store.store.distance_km} km</h3>
+                <h1 className="flex justify-center text-xl mb-4">
+                  {store.store.name}
+                </h1>
+                <h3>
+                  {store.store.address.city} - {store.store.address.zip}
+                </h3>
+                <h3>{store.store.address.street}</h3>
+                <div className="flex justify-between pt-5">
+                  <h3>Åbent: {store.store.hours[0]?.closed ? "Nej" : "Ja"}</h3>
+                  <h3>Åbningstider: {store.store.hours[0]?.open || "N/A"}</h3>
+                </div>
+                <h3>{store.store.distance_km} km</h3>
               </a>
             </div>
           ))}
