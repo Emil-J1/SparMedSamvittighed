@@ -7,8 +7,8 @@ export default function Navbar() {
         <h1>Spar med Samvittighed</h1>
       </div>
       <div className="space-x-6">
-        <Link href="/products">Home</Link>
         <Link href="/profile">Profile</Link>
+        <Link href="/stores">Søg</Link>
       </div>
     </nav>
   );
