@@ -48,7 +48,7 @@ const Searchbar: React.FC<SearchbarProps> = ({ onSearch }) => {
       />
       <button
         type="submit"
-        className="bg-green-600 hover:bg-green-500 text-black p-2 rounded-lg ml-2 h-full flex flex-row items-center"
+        className="bg-green-600 hover:bg-green-500 text-black p-2 rounded-lg ml-2 h-full flex flex-row items-center w-14"
       >
         <img
           className="h-full"
