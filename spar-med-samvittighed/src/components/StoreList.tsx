@@ -86,7 +86,7 @@ export default function StoreList({ zipCode }: StoreListProps) {
               key={store.store.id}
               className="bg-white text-black py-10 p-4 border rounded-lg"
             >
-              <a href={`store/${store.store.id}/`}>
+              <a href={`stores/${store.store.id}/`}>
                 <h1 className="flex justify-center text-xl mb-4">
                   {store.store.name}
                 </h1>
