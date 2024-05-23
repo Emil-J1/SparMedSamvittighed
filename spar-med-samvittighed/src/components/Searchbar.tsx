@@ -21,7 +21,7 @@ const Searchbar: React.FC<SearchbarProps> = ({ onSearch }) => {
     <form onSubmit={handleSubmit} className="flex justify-center items-center mb-10 h-12 w-full">
       <input
         type="text"
-        placeholder="Søg efter produkter"
+        placeholder="Søg efter postnummer"
         value={inputValue}
         onChange={handleInputChange}
         className="border border-gray-400 p-2 rounded-lg text-black h-full w-full"
