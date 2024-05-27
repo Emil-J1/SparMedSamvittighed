@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import mongoose, { Schema, model, Document } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 // Define the User interface (for type safety)
@@ -6,6 +6,7 @@ interface User {
     email: string; // Change to a more specific type
     username: string;
     password: string;
+    zipCode: Number;
   }  
 
 const UserSchema = new Schema<User>({
@@ -13,6 +14,7 @@ const UserSchema = new Schema<User>({
         type: String,
         unique: true,
         required: [true, 'Email is required!'],
+        match: [/\S+@\S+\.\S+/, 'Email format is invalid!'], 
     },
     username: {
       type: String,
@@ -23,6 +25,11 @@ const UserSchema = new Schema<User>({
       type: String,
       required: [true, 'Password is required!'],
       minlength: [6, 'Password should be at least 6 characters long!'],
+    },
+    zipCode: {
+      type: Number,
+      match: [/^\d{4}$/, "Postal-code invalidt, only 4 digits is allowed."], // Postal code (4 digits)
+      required: [true, "Postal code is required."],
     }
   });
 
@@ -35,5 +42,7 @@ const UserSchema = new Schema<User>({
   });
 
 // Export the compiled Mongoose model
-export const User = model<User>('User', UserSchema);
+const User = mongoose.models.User || model<User>('User', UserSchema);
+
+export { User };
 

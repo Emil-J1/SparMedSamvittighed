@@ -28,10 +28,11 @@ export default async function loginAuction(
     sameSite: "strict",
   });
 
-  // If theres a message, then tell the users, theres a message for them else, return a redirect to show them it completed
-  if (json.message) {
-    return json.message;
-  } else {
-    redirect("/protected");
-  }
+      // If theres a message, then tell the users, theres a message for them else, return a redirect to show them it completed
+      if (json.message) {
+        return json.message;
+      } else {
+        redirect("/");
+      }
+
 }
