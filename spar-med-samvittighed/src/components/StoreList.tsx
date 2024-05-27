@@ -5,7 +5,6 @@ interface StoreData {
   store: {
     name: string;
     id: string;
-    distance_km: number;
     address: {
       city: string;
       street: string;
@@ -57,9 +56,7 @@ export default function StoreList({ zipCode }: StoreListProps) {
 
     fetchData();
 
-    return () => {
-
-    };
+    return () => {};
   }, [zipCode]);
 
   if (isLoading) {
@@ -86,7 +83,7 @@ export default function StoreList({ zipCode }: StoreListProps) {
               key={store.store.id}
               className="bg-white text-black py-10 p-4 border rounded-lg"
             >
-              <a href={`store/${store.store.id}/`}>
+              <a href={`stores/${store.store.id}/`}>
                 <h1 className="flex justify-center text-xl mb-4">
                   {store.store.name}
                 </h1>
@@ -95,10 +92,26 @@ export default function StoreList({ zipCode }: StoreListProps) {
                 </h3>
                 <h3>{store.store.address.street}</h3>
                 <div className="flex justify-between pt-5">
-                  <h3>Åbent: {store.store.hours[0]?.closed ? "Nej" : "Ja"}</h3>
-                  <h3>Åbningstider: {store.store.hours[0]?.open || "N/A"}</h3>
+                  <h3>
+                    Åbningstider: <br /> {new Intl.DateTimeFormat("da-DK", {
+                      weekday: "long", 
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    }).format(new Date(store.store.hours[0]?.open)) ||
+                      "N/A"}{" "}<br />
+                    {new Intl.DateTimeFormat("da-DK", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    }).format(new Date(store.store.hours[0]?.open)) ||
+                      "N/A"}{" "}
+                    <br />
+                    {new Intl.DateTimeFormat("da-DK", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    }).format(new Date(store.store.hours[0]?.close)) || "N/A"}
+                  </h3>
                 </div>
-                <h3>{store.store.distance_km} km</h3>
               </a>
             </div>
           ))}
