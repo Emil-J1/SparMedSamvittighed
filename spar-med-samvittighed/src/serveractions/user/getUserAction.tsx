@@ -5,7 +5,7 @@ export default async function getUserAction(id: any) {
     try {
         let user = null;
         // Get user
-        const res = await fetch("http://localhost:3000/api/user",{
+        const res = await fetch(process.env.APP_URL + "/api/user",{
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({id})
@@ -27,7 +27,7 @@ export default async function getUserAction(id: any) {
         // Parse the response as JSON
         const userData = await res.json();
 
-        // return userData
+        // return userDatac
         return userData;
 
     } catch (error) {
