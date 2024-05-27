@@ -33,6 +33,6 @@ export default async function loginAuction(
       if (json.message) {
         return json.message;
       } else {
-        redirect("/protected");
+        redirect("/");
       }
 }
