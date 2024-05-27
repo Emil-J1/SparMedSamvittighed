@@ -1,14 +1,11 @@
-"use client";
-import { useState } from "react";
+"use client"
+import { useState } from 'react';
+import { useRouter } from 'next/navigation'
 
 export default function Register() {
-  const [formData, setFormData] = useState({
-    email: "",
-    username: "",
-    password: "",
-    zipCode: "",
-  });
-  const [message, setMessage] = useState("");
+  const router = useRouter();
+  const [formData, setFormData] = useState({ email: '', username: '', password: '', zipCode: "",  });
+  const [message, setMessage] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -29,6 +26,7 @@ export default function Register() {
       const data = await response.json();
       if (response.ok) {
         setMessage(data.message);
+        router.push('/');
       } else {
         setMessage(data.message || "Registration failed");
       }
