@@ -7,6 +7,7 @@ interface RegisterRequestBody {
     email: string;
     username: string;
     password: string;
+    zipCode: string;
   }
 
 export async function GET()
@@ -25,20 +26,20 @@ export async function POST(request: Request)
 
         // Read data off request body
         const body: RegisterRequestBody = await request.json();
-        const { email, username, password } = body;
+        const { email, username, password, zipCode } = body;
 
         // Then valid data
          // Validate data (basic example, you can add more validation)
-        if (!email || !username || !password) {
-        throw new Error('Email, username, and password are required');
+        if (!email || !username || !password || !zipCode)  {
+        throw new Error('Email, username, zip code and password are required');
       }
         // Await database
         await connectToDB();
         
         // Creates the user in database
-        const createdUser = await User.create({ email, username, password }); 
+        const createdUser = await User.create({ email, username, password, zipCode }); 
 
-        if (!createdUser.email || !createdUser.username || !createdUser.password) {
+        if (!createdUser.email || !createdUser.username || !createdUser.password || !createdUser.zipCode) {
             throw new Error('There was a problem, saving your data, therefor try again');
         }
 

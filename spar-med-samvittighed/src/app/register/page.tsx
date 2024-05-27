@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 
 export default function Register() {
-  const [formData, setFormData] = useState({ email: '', username: '', password: '' });
+  const [formData, setFormData] = useState({ email: '', username: '', password: '', zipCode: "",  });
   const [message, setMessage] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,6 +61,16 @@ export default function Register() {
           onChange={handleChange}
           required
         />
+        <input
+        type="text"
+        name="zipCode"
+        placeholder="Zip Code"
+        value={formData.zipCode}
+        onChange={handleChange}
+        required
+        />
+
+
         <button type="submit">Register</button>
       </form>
       {message && <p>{message}</p>}
