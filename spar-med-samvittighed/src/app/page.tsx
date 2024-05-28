@@ -39,7 +39,7 @@ export default async function Home() {
           <>
             <Navbar />
             <div>
-              <h1>Dette er dine butikker i nærheden af dig</h1>
+              <h1>Dette er butikker i nærheden af dig:</h1>
             </div>
             <StoreList zipCode={user.zipCode} />
           </>

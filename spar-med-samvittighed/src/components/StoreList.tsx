@@ -74,19 +74,19 @@ export default function StoreList({ zipCode }: StoreListProps) {
   }
 
   return (
-    <div className="py-10 px-10 text-gray-700">
-      <div className="grid lg:grid-cols-3 gap-4">
+    <section className="py-10 px-10 w-screen">
+      <div className="grid lg:grid-cols-3 gap-6">
         {storeData &&
           storeData.length > 0 &&
           storeData.map((store) => (
-            <div
+            <article
               key={store.store.id}
-              className="bg-white text-black py-10 p-4 border rounded-lg"
+              className="bg-white text-gray-800 py-10 p-4 border rounded-lg"
             >
               <a href={`stores/${store.store.id}/`}>
-                <h1 className="flex justify-center text-xl mb-4">
+                <h2 className="flex justify-center text-xl font-bold mb-4">
                   {store.store.name}
-                </h1>
+                </h2>
                 <h3>
                   {store.store.address.city} - {store.store.address.zip}
                 </h3>
@@ -113,9 +113,9 @@ export default function StoreList({ zipCode }: StoreListProps) {
                   </h3>
                 </div>
               </a>
-            </div>
+            </article>
           ))}
       </div>
-    </div>
+    </section>
   );
 }

@@ -36,9 +36,9 @@ export default function Register() {
   };
 
   return (
-    <section className="flex min-h-screen flex-col items-center justify-center p-24 bg-gray-black">
-      <h1 className="text-4xl font-bold mb-8">Register</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col space-y-4 w-1/5 ">
+    <section className="flex flex-col items-center justify-center h-screen w-screen w-full bg-white text-center gap-2">
+      <h1 className="text-3xl font-bold mb-8 text-green-800">Register din profil</h1>
+      <form onSubmit={handleSubmit} className="flex flex-col space-y-4 max-sm:w-3/5 gap-3">
         <input
           type="email"
           name="email"
@@ -46,30 +46,30 @@ export default function Register() {
           value={formData.email}
           onChange={handleChange}
           required
-          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4"
+          className="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
         <input
           type="text"
           name="username"
-          placeholder="Username"
+          placeholder="Navn"
           value={formData.username}
           onChange={handleChange}
           required
-          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4"
+          className="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4"
         />
         <input
           type="password"
           name="password"
-          placeholder="Password"
+          placeholder="Kodeord"
           value={formData.password}
           onChange={handleChange}
           required
-          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4"
+          className="appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4"
         />
         <input
           type="text"
           name="zipCode"
-          placeholder="Zip Code"
+          placeholder="Postnummer"
           value={formData.zipCode}
           onChange={handleChange}
           onKeyDown={(event) => {
@@ -94,9 +94,9 @@ export default function Register() {
         />
         <button
           type="submit"
-          className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="bg-green-500 hover:bg-white hover:text-green-500 transition ease-in-out duration-300 text-white font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline self-center border w-40 mt-10"
         >
-          Register
+          Register profil
         </button>
       </form>
       {message && <p className="mt-4 text-red-500">{message}</p>}
