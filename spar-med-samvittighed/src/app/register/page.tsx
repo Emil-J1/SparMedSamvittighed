@@ -1,9 +1,6 @@
-"use client"
 import { useState } from 'react';
 
-
 export default function Register() {
-  const [formData, setFormData] = useState({ email: '', username: '', password: '', zipCode: "",  });
   const [message, setMessage] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,6 +38,7 @@ export default function Register() {
           type="email"
           name="email"
           placeholder="Email"
+          aria-label="Email"
           value={formData.email}
           onChange={handleChange}
           required
@@ -49,6 +47,7 @@ export default function Register() {
           type="text"
           name="username"
           placeholder="Username"
+          aria-label="Username"
           value={formData.username}
           onChange={handleChange}
           required
@@ -57,20 +56,20 @@ export default function Register() {
           type="password"
           name="password"
           placeholder="Password"
+          aria-label="Password"
           value={formData.password}
           onChange={handleChange}
           required
         />
         <input
-        type="text"
-        name="zipCode"
-        placeholder="Zip Code"
-        value={formData.zipCode}
-        onChange={handleChange}
-        required
+          type="text"
+          name="zipCode"
+          placeholder="Zip Code"
+          aria-label="Zip Code"
+          value={formData.zipCode}
+          onChange={handleChange}
+          required
         />
-
-
         <button type="submit">Register</button>
       </form>
       {message && <p>{message}</p>}
