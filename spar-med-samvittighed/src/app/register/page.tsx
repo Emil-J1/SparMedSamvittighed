@@ -1,4 +1,3 @@
-"use client"
 import { useState } from 'react';
 import { useRouter } from 'next/navigation'
 
@@ -43,6 +42,7 @@ export default function Register() {
           type="email"
           name="email"
           placeholder="Email"
+          aria-label="Email"
           value={formData.email}
           onChange={handleChange}
           required
@@ -52,6 +52,7 @@ export default function Register() {
           type="text"
           name="username"
           placeholder="Username"
+          aria-label="Username"
           value={formData.username}
           onChange={handleChange}
           required
@@ -61,6 +62,7 @@ export default function Register() {
           type="password"
           name="password"
           placeholder="Password"
+          aria-label="Password"
           value={formData.password}
           onChange={handleChange}
           required
@@ -98,6 +100,7 @@ export default function Register() {
         >
           Register
         </button>
+
       </form>
       {message && <p className="mt-4 text-red-500">{message}</p>}
     </section>
