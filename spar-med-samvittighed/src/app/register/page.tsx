@@ -36,9 +36,10 @@ export default function Register() {
   };
 
   return (
-    <section className="flex flex-col items-center justify-center h-screen w-screen w-full bg-white text-center gap-2">
+    <section className="flex flex-col items-center justify-center h-screen w-screen bg-[url('https://images.pexels.com/photos/4113922/pexels-photo-4113922.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')]">
+      <div className="p-10 rounded-2xl w-full max-w-md flex flex-col items-center bg-stone-100 max-sm:w-4/5 text-center">
       <h1 className="text-3xl font-bold mb-8 text-green-800">Register din profil</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col space-y-4 max-sm:w-3/5 gap-3">
+      <form onSubmit={handleSubmit} className="flex flex-col space-y-4 max-sm:w-4/5 gap-2">
         <input
           type="email"
           name="email"
@@ -94,11 +95,13 @@ export default function Register() {
         />
         <button
           type="submit"
-          className="bg-green-500 hover:bg-white hover:text-green-500 transition ease-in-out duration-300 text-white font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline self-center border w-40 mt-10"
+          className="bg-green-500 hover:bg-white hover:text-green-500 transition ease-in-out duration-300 text-white font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline self-center border w-35 mt-12"
         >
           Register profil
         </button>
+        
       </form>
+      </div>
       {message && <p className="mt-4 text-red-500">{message}</p>}
     </section>
   );

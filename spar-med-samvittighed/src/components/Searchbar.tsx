@@ -20,7 +20,7 @@ const Searchbar: React.FC<SearchbarProps> = ({ onSearch }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex justify-center items-center mb-10 h-12 w-full max-sm:w-screen"
+      className="flex justify-center items-center mb-10 h-12 w-2/5 max-sm:w-screen"
     >
       <input
         type="text"

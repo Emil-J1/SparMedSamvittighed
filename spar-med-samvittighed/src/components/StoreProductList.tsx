@@ -85,10 +85,10 @@ const StoreProductList: React.FC<StoreProductListProps> = ({ storeId }) => {
 
   if (isLoading) {
     return (
-      <section className="flex flex-col justify-center items-center">
-        <h3 className="text-xl mb-5">Indlæser</h3>
+      <div className="flex flex-col justify-center items-center">
+        <h3 className="text-2xl font-bold mb-5 text-white">Indlæser</h3>
         <Image src="/loading.gif" alt="Indlæser" width={30} height={30} />
-      </section>
+      </div>
     );
   }
 
@@ -99,25 +99,32 @@ const StoreProductList: React.FC<StoreProductListProps> = ({ storeId }) => {
   }
 
   if (!storeData) {
-    return null; // or some fallback UI
+    return (
+      <p className="text-2xl font-medium m-4 text-white">
+        Butikken kunne ikke findes.
+      </p>
+    );
   }
 
   return (
-    <>
-      <h2 className="text-2xl font-bold mb-1">{storeData.store.name}</h2>
-      <h2 className="text-1xl mb-12">{storeData.store.address.street}</h2>
+    <section className="text-center px-10 w-3/5 max-sm:w-screen">
+      <div className="bg-white backdrop-blur bg-opacity-25 p-2 rounded-lg">
+      <h2 className="text-3xl font-bold mb-2 text-black">{storeData.store.name}</h2>
+      <h2 className="text-xl font-medium text-gray-800">{storeData.store.address.street}</h2>
+      </div>
+      <hr className="m-5 mt-7"/>
       {storeData.clearances && storeData.clearances.length > 0 ? (
-        <>
-          <h2 className="text-xl font-bold mb-4">Nedsatte produkter:</h2>
+        <div>
+          <h2 className="text-xl font-bold text-white mb-8">Nedsatte produkter:</h2>
           <ul className="list-disc space-y-2">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {storeData.clearances.map((clearance, index) => (
                 <li
                   key={index}
-                  className="col-span-1 flex flex-col justify-center gap-2 p-2 border rounded-lg shadow-sm"
+                  className="col-span-1 flex flex-col justify-center gap-2 p-2 rounded-lg shadow-sm text-gray-800 py-10 p-4 rounded-lg bg-stone-100	"
                 >
                   <a href={`${storeData.store.id}/products/${clearance.product.ean}`}>
-                    <h3 className="font-bold">{clearance.product.description}</h3>
+                    <h3 className="text-lg font-bold">{clearance.product.description}</h3>
                     <br />
                     <picture className="aspect-ratio aspect-[3/2] max-w-60 flex justify-center">
                       <img
@@ -129,12 +136,12 @@ const StoreProductList: React.FC<StoreProductListProps> = ({ storeId }) => {
                         }}
                       />
                     </picture>
-                    <p>Før pris: {clearance.offer.originalPrice} kr</p>
-                    <p className="font-medium">
+                    <p className="mt-4 font-medium">Før pris: {clearance.offer.originalPrice} kr</p>
+                    <p className=" m-2 font-medium">
                       Nedsat pris: {clearance.offer.newPrice} kr
                     </p>
                     {clearance.offer.endTime && (
-                      <p>
+                      <p className="font-medium">
                         Udløbsdato:{" "}
                         {new Date(clearance.offer.endTime).toLocaleDateString(
                           "da-DK"
@@ -146,11 +153,11 @@ const StoreProductList: React.FC<StoreProductListProps> = ({ storeId }) => {
               ))}
             </div>
           </ul>
-        </>
+        </div>
       ) : (
-        <p>Ingen nedsatte produkter fundet.</p>
+        <p className="text-2xl font-medium m-12 text-gray-800">Ingen nedsatte produkter fundet.</p>
       )}
-    </>
+    </section>
   );
 };
 
