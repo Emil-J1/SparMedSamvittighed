@@ -1,7 +1,7 @@
 // Import necessary modules
 import { render, screen, fireEvent } from '@testing-library/react';
-import Register from '@/app/register/page'; // Adjust the path as necessary
 import '@testing-library/jest-dom';
+import Register from '@/app/register/page'; // Adjust the path as necessary
 
 // Mock the global fetch function
 global.fetch = jest.fn();
@@ -40,30 +40,33 @@ describe('Register component', () => {
 
   // Test that the form handles successful registration
   it('should handle successful registration', async () => {
+    // Mock successful fetch response
     (fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
       json: async () => ({ message: 'User created successfully!' }),
     });
-
+  
+    // Render the component
     render(<Register />);
-
-    // Change the values of the email, username, password, and zip code inputs
-    const emailInput = screen.getByLabelText(/Email/i);
+  
+    // Fill in the form and submit
+    
+    const emailInput = screen.getByLabelText('Email');
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-
-    const usernameInput = screen.getByLabelText(/Username/i);
+    
+    const usernameInput = screen.getByLabelText('Username');
     fireEvent.change(usernameInput, { target: { value: 'test_user' } });
-
-    const passwordInput = screen.getByLabelText(/Password/i);
+    
+    const passwordInput = screen.getByLabelText('Password');
     fireEvent.change(passwordInput, { target: { value: 'secure_password' } });
+    
+    const zipCodeInput = screen.getByLabelText('Zip Code');
+    fireEvent.change(zipCodeInput, { target: { value: '1234' } });
 
-    const zipCodeInput = screen.getByLabelText(/Zip Code/i);
-    fireEvent.change(zipCodeInput, { target: { value: '12345' } });
-
-    // Click the register button and check that the success message is displayed
     const submitButton = screen.getByRole('button', { name: /Register/i });
     fireEvent.click(submitButton);
-
+  
+    // Expect success message
     expect(await screen.findByText(/User created successfully!/i)).toBeInTheDocument();
   });
 
