@@ -126,14 +126,13 @@ const StoreProductList: React.FC<StoreProductListProps> = ({ storeId }) => {
                   <a href={`${storeData.store.id}/products/${clearance.product.ean}`}>
                     <h3 className="text-lg font-bold">{clearance.product.description}</h3>
                     <br />
-                    <picture className="aspect-ratio aspect-[3/2] max-w-60 flex justify-center">
+                    <picture className=" flex justify-center align-center mx-2" style={{
+                          display: clearance.product.image ? "block" : "none",
+                        }}>
                       <img
-                        className="max-h-52 object-cover"
+                        className="w-full max-h-52 object-contain"
                         src={clearance.product.image}
                         alt={clearance.product.description}
-                        style={{
-                          display: clearance.product.image ? "block" : "none",
-                        }}
                       />
                     </picture>
                     <p className="mt-4 font-medium">Før pris: {clearance.offer.originalPrice} kr</p>
