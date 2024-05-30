@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation'
 
 export default function Register() {
-  // const router = useRouter();
+  // const router = useRouter(); out commented for testing
   const [formData, setFormData] = useState({ email: '', username: '', password: '', zipCode: "",  });
   const [message, setMessage] = useState('');
 
