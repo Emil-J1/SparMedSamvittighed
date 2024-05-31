@@ -32,6 +32,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-modules-
 
+      - name: Set up environment variables
+        env:
+          GOOGLE_ID: ${{ secrets.GOOGLE_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+          NEXTAUTH_URL_INTERNAL: ${{ secrets.NEXTAUTH_URL_INTERNAL}}
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}          
+        run: echo "Google ID is $GOOGLE_ID. GOOGLE client Secret $GOOGLE_CLIENT_SECRET. MONGODBURI IS $MONGODB_URI"
+ 
+
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
