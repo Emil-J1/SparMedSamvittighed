@@ -11,10 +11,10 @@ export default function StoreListPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="flex justify-center text-3xl pb-12">Butikker</h1>
+    <section className="flex min-h-screen flex-col items-center justify-between p-24 bg-stone-100">
+      <h1 className="text-3xl font-bold mb-12 text-black">Butikker</h1>
       <Searchbar onSearch={handleSearch} />
       {zipCode ? <StoreList zipCode={zipCode} /> : <StoreList zipCode='9000' />}
-    </div>
+    </section>
   );
 }
