@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from "react";
-import Searchbar from "../../components/Searchbar";
-import StoreList from "../../components/StoreList";
+import Searchbar from "@/components/Searchbar";
+import StoreList from "@/components/StoreList";
 
 export default function StoreListPage() {
   const [zipCode, setZipCode] = useState<string | null>(null);
