@@ -55,7 +55,7 @@ jobs:
           CI: true
 
       - name: Wait for server to start
-        run: sleep 15
+        run: sleep 30
 
       - name: Install Chrome dependencies
         run: |
