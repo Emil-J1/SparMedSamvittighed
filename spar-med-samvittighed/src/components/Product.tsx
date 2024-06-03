@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Clearance {
   offer: {
@@ -94,9 +95,16 @@ const Product: React.FC<ProductPageProps> = ({ storeId, productId }) => {
 
   return (
     <article className="flex flex-col items-center justify-center w-screen rounded-2xl w-full max-w-md bg-stone-100 max-sm:w-4/5 text-center my-5">
-      <h1 className="w-full text-2xl font-bold mb-4 text-green-800 pt-8">
-        {data.product.description}
-      </h1>
+      <div className="flex justify-center pt-8 mx-2 gap-5">
+        <Link href={`/stores/${storeId}`}>
+          <button className="text-black text-2xl font-bold focus:shadow-outline">
+            ←
+          </button>
+        </Link>
+        <h1 className="w-full text-2xl font-bold mb-4 text-green-800">
+          {data.product.description}
+        </h1>
+      </div>
       <img
         className="max-h-35 max-sm:w-3/5 self-center my-10 max-sm:my-5"
         src={data.product.image}
