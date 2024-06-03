@@ -83,12 +83,12 @@ jobs:
         env:
           CI: true
 
-      - name: Download ChromeDriver
+      - name: Install ChromeDriver (Linux only)
         if: matrix.os == 'ubuntu-latest'
         run: |
           CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
-          CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION}")
-          wget -N https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip -P ~/
+          CHROME_DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
+          wget -N "https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip" -P ~/
           unzip ~/chromedriver_linux64.zip -d ~/
           sudo mv -f ~/chromedriver /usr/local/bin/chromedriver
           sudo chmod +x /usr/local/bin/chromedriver
@@ -96,7 +96,7 @@ jobs:
         env:
           CI: true
 
-      - name: Download ChromeDriver (Windows only)
+      - name: Install ChromeDriver (Windows only)
         if: matrix.os == 'windows-latest'
         run: |
           $chrome_version = (Get-Item -Path "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe").VersionInfo.ProductVersion
@@ -114,4 +114,5 @@ jobs:
         env:
           CI: true
           CHROME_BIN: /usr/bin/google-chrome
+
 
