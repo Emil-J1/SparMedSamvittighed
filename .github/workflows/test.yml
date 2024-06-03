@@ -11,6 +11,7 @@ on:
 jobs:
   run:
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 60  # Increase the timeout to 60 minutes
 
     strategy:
       matrix:
@@ -68,4 +69,11 @@ jobs:
           SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
         working-directory: ./spar-med-samvittighed
 
+      # Optional: Retry strategy for the Selenium service
+      - name: Start Selenium service with retry
+        run: |
+          for i in {1..5}; do
+            docker pull selenium/standalone-chrome:latest && break;
+            sleep 30;
+          done
 
