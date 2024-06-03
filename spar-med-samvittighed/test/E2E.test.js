@@ -11,10 +11,12 @@ describe("E2E Test: Login, Select Store, Select Product", () => {
   });
 
   afterAll(async () => {
-    // Tilføj en 3-sekunders forsinkelse, før browseren lukkes
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    await driver.quit(); // Luk browseren
-  });
+    if (driver) {
+      // Tilføj en 3-sekunders forsinkelse, før browseren lukkes
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await driver.quit(); // Luk browseren
+    }
+  }, 20000);
 
   it("should login, select a store, and then select a product", async () => {
     try {
