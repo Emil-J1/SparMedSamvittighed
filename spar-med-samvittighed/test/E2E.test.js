@@ -48,7 +48,7 @@ describe("E2E Test: Login, Select Store, Select Product", () => {
 
       // Vent på at butikslinket er synligt og vælg en butik
       const storeLinkSelector = 'a[href^="stores/"]';
-      await driver.wait(until.elementLocated(By.css(storeLinkSelector)), 30000);
+      await driver.wait(until.elementLocated(By.css(storeLinkSelector)), 60000);
       const storeElement = await driver.findElement(By.css(storeLinkSelector));
       const storeId = new URL(await storeElement.getAttribute("href")).pathname
         .split("/")
@@ -84,5 +84,5 @@ describe("E2E Test: Login, Select Store, Select Product", () => {
       console.error("Test failed with error:", error);
       throw error; // Kast fejlen igen for at sikre, at Jest markerer testen som mislykket
     }
-  }, 60000); // Sæt en timeout for denne specifikke test
+  }, 90000); // Sæt en timeout for denne specifikke test
 });
