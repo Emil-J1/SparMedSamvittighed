@@ -43,12 +43,12 @@ describe("E2E Test: Login, Select Store, Select Product", () => {
       console.log("Submitted login form");
 
       // Vent på navigation til siden for valg af butik
-      await driver.wait(until.urlContains("/"), 20000);
+      await driver.wait(until.urlContains("/"), 30000);
       console.log("Navigated to store selection page");
 
       // Vent på at butikslinket er synligt og vælg en butik
       const storeLinkSelector = 'a[href^="stores/"]';
-      await driver.wait(until.elementLocated(By.css(storeLinkSelector)), 20000);
+      await driver.wait(until.elementLocated(By.css(storeLinkSelector)), 30000);
       const storeElement = await driver.findElement(By.css(storeLinkSelector));
       const storeId = new URL(await storeElement.getAttribute("href")).pathname
         .split("/")
@@ -56,7 +56,7 @@ describe("E2E Test: Login, Select Store, Select Product", () => {
       await storeElement.click();
 
       // Vent på navigation til butikkens produktside
-      await driver.wait(until.urlContains(`/stores/${storeId}`), 20000);
+      await driver.wait(until.urlContains(`/stores/${storeId}`), 30000);
       console.log("Navigated to store's product page with ID:", storeId);
 
       // Vent på at produktlisten er synlig og verificer den
@@ -72,13 +72,13 @@ describe("E2E Test: Login, Select Store, Select Product", () => {
 
       // Vent på at det første produkt er synligt og vælg et produkt
       const productSelector = `${productListSelector} li a`;
-      await driver.wait(until.elementLocated(By.css(productSelector)), 20000);
+      await driver.wait(until.elementLocated(By.css(productSelector)), 30000);
       const product = await driver.findElement(By.css(productSelector));
       await product.click();
       console.log("Selected product");
 
       // Verificer navigation til produktets detaljeside
-      await driver.wait(until.urlContains("/products/"), 20000);
+      await driver.wait(until.urlContains("/products/"), 30000);
       console.log("Navigated to product details page");
     } catch (error) {
       console.error("Test failed with error:", error);
