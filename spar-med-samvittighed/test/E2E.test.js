@@ -1,14 +1,26 @@
 const { Builder, By, until } = require("selenium-webdriver");
 const { expect } = require("@jest/globals");
+const chrome = require("selenium-webdriver/chrome");
 
 describe("E2E Test: Login, Select Store, Select Product", () => {
   let driver;
 
   beforeAll(async () => {
+    const options = new chrome.Options();
+    options.addArguments("headless");
+    options.addArguments("disable-gpu");
+    options.addArguments("no-sandbox");
+    options.addArguments("disable-dev-shm-usage");
+    options.addArguments("remote-debugging-port=9222");
+
     // Opret en WebDriver-instantiering til Chrome-browseren
-    driver = await new Builder().forBrowser("chrome").build();
+    driver = await new Builder()
+      .forBrowser("chrome")
+      .setChromeOptions(options)
+      .build();
+
     jest.setTimeout(20000); // Sæt en højere timeout for hele test-suiten
-  });
+  }, 20000); // Sæt en timeout for beforeAll
 
   afterAll(async () => {
     if (driver) {
@@ -16,7 +28,7 @@ describe("E2E Test: Login, Select Store, Select Product", () => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       await driver.quit(); // Luk browseren
     }
-  }, 20000);
+  }, 20000); // Sæt en timeout for afterAll
 
   it("should login, select a store, and then select a product", async () => {
     try {
