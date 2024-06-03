@@ -9,13 +9,19 @@ on:
       - test
 
 jobs:
-  test:
+  run:
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest]
+        os: [ubuntu-latest, windows-latest]
         node-version: [18.x]
+
+    services:
+      selenium:
+        image: selenium/standalone-chrome:latest
+        ports:
+          - 4444:4444
 
     steps:
       - name: Checkout repository
@@ -30,14 +36,15 @@ jobs:
             ${{ runner.os }}-node-modules-
 
       - name: Set up environment variables
-        run: |
-          echo "GOOGLE_ID=${{ secrets.GOOGLE_ID }}" >> $GITHUB_ENV
-          echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> $GITHUB_ENV
-          echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> $GITHUB_ENV
-          echo "NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}" >> $GITHUB_ENV
-          echo "NEXTAUTH_URL_INTERNAL=${{ secrets.NEXTAUTH_URL_INTERNAL }}" >> $GITHUB_ENV
-          echo "AUTH_SECRET=${{ secrets.AUTH_SECRET }}" >> $GITHUB_ENV
-          echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> $GITHUB_ENV
+        env:
+          GOOGLE_ID: ${{ secrets.GOOGLE_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+          NEXTAUTH_URL_INTERNAL: ${{ secrets.NEXTAUTH_URL_INTERNAL}}
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}          
+        run: echo "Google ID is $GOOGLE_ID. GOOGLE client Secret $GOOGLE_CLIENT_SECRET. MONGODBURI IS $MONGODB_URI"
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
@@ -50,69 +57,15 @@ jobs:
 
       - name: Run npm run build
         working-directory: ./spar-med-samvittighed
-        run: npm run build
+        run: npx next build
 
-      - name: Start server
-        working-directory: ./spar-med-samvittighed
-        run: npm start &
-        env:
-          NODE_ENV: test
+      - name: Install Selenium WebDriver and Jest
+        run: npm install selenium-webdriver @jest/globals
 
-      - name: Wait for server to start
-        run: |
-          for i in {1..30}; do
-            if curl -sSf http://localhost:3000 > /dev/null; then
-              echo "Server is up!"
-              exit 0
-            fi
-            echo "Waiting for server... ($i)"
-            sleep 5
-          done
-          echo "Server did not start in time" >&2
-          exit 1
-
-      - name: Install Chrome dependencies (Linux only)
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y wget gnupg
-          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-        env:
-          CI: true
-
-      - name: Install ChromeDriver (Linux only)
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
-          CHROME_DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
-          wget -N "https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip" -P ~/
-          unzip ~/chromedriver_linux64.zip -d ~/
-          sudo mv -f ~/chromedriver /usr/local/bin/chromedriver
-          sudo chmod +x /usr/local/bin/chromedriver
-          chromedriver --version
-        env:
-          CI: true
-
-      - name: Install ChromeDriver (Windows only)
-        if: matrix.os == 'windows-latest'
-        run: |
-          $chrome_version = (Get-Item -Path "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe").VersionInfo.ProductVersion
-          $chrome_major_version = $chrome_version.Split('.')[0]
-          $chromedriver_version = Invoke-RestMethod -Uri "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$chrome_major_version"
-          Invoke-WebRequest -Uri "https://chromedriver.storage.googleapis.com/$chromedriver_version/chromedriver_win32.zip" -OutFile "chromedriver.zip"
-          Expand-Archive chromedriver.zip -DestinationPath "chromedriver"
-          Copy-Item -Path "chromedriver\chromedriver.exe" -Destination "C:\Windows\System32\chromedriver.exe"
-        env:
-          CI: true
-
-      - name: Run tests
-        working-directory: ./spar-med-samvittighed
+      - name: Run Selenium WebDriver tests
         run: npm test
         env:
-          CI: true
-          CHROME_BIN: /usr/bin/google-chrome
+          SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
+        working-directory: ./spar-med-samvittighed
 
 
