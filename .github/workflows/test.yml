@@ -7,11 +7,10 @@ on:
   pull_request:
     branches:
       - test
-
 jobs:
   test:
     runs-on: ${{ matrix.os }}
-
+    
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest]
@@ -85,10 +84,18 @@ jobs:
         env:
           CI: true
 
+      - name: Install ChromeDriver (Linux only)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get install -y unzip xvfb libxi6 libgconf-2-4
+          wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/91.0.4472.101/chromedriver_linux64.zip
+          sudo unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
+        env:
+          CI: true
+
       - name: Run tests
         working-directory: ./spar-med-samvittighed
         run: npm test
         env:
           CI: true
           CHROME_BIN: /usr/bin/google-chrome
-
