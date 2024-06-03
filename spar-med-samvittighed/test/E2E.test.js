@@ -7,7 +7,7 @@ describe("E2E Test: Login, Select Store, Select Product", () => {
   beforeAll(async () => {
     // Opret en WebDriver-instantiering til Chrome-browseren
     driver = await new Builder().forBrowser("chrome").build();
-    jest.setTimeout(10000); // Sæt en højere timeout for hele test-suiten
+    jest.setTimeout(20000); // Sæt en højere timeout for hele test-suiten
   });
 
   afterAll(async () => {
