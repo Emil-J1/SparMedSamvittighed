@@ -18,12 +18,6 @@ jobs:
         os: [ubuntu-latest, windows-latest]
         node-version: [18.x]
 
-    services:
-      selenium:
-        image: selenium/standalone-chrome:latest
-        ports:
-          - 4444:4444
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -60,8 +54,18 @@ jobs:
         working-directory: ./spar-med-samvittighed
         run: npx next build
 
-      - name: Install Selenium WebDriver and Jest
-        run: npm install selenium-webdriver @jest/globals
+      - name: Install Chrome
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
+      - name: Install ChromeDriver
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get install -yqq unzip
+          wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE)/chromedriver_linux64.zip
+          sudo unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
 
       - name: Run Selenium WebDriver tests
         run: npm test
@@ -69,11 +73,16 @@ jobs:
           SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
         working-directory: ./spar-med-samvittighed
 
-      # Optional: Retry strategy for the Selenium service
-      - name: Start Selenium service with retry
+      - name: Install Chrome on Windows
+        if: matrix.os == 'windows-latest'
         run: |
-          for i in {1..5}; do
-            docker pull selenium/standalone-chrome:latest && break;
-            sleep 30;
-          done
+          choco install googlechrome -y
+          choco install chromedriver -y --version 2.46
+
+      - name: Run Selenium WebDriver tests on Windows
+        if: matrix.os == 'windows-latest'
+        run: npm test
+        env:
+          SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
+        working-directory: ./spar-med-samvittighed
 
