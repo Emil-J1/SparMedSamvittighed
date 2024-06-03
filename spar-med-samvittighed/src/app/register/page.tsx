@@ -12,6 +12,7 @@ export default function Register() {
   });
   const [message, setMessage] = useState("");
 
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -32,6 +33,7 @@ export default function Register() {
       if (response.ok) {
         setMessage(data.message);
         // router.push("/");
+
       } else {
         setMessage(data.message || "Registration failed");
       }
