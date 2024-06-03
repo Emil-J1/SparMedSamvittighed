@@ -1,99 +1,85 @@
-name: Run Tests (Test Branch)
+name: Run Tests
 
 on:
   push:
     branches:
       - test
-  pull_request:
-    branches:
-      - test
 
 jobs:
-  test:
-    runs-on: ${{ matrix.os }}
+  test-on-windows:
+    runs-on: windows-latest
 
-    strategy:
-      matrix:
-        os: [windows-latest, ubuntu-latest]
-        node-version: [18.x]
+    services:
+      selenium:
+        image: selenium/standalone-chrome
+        options: >-
+          --detach
+          --publish 4444:4444
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Cache node_modules
-        uses: actions/cache@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          path: node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
-
-      - name: Set up environment variables
-        run: |
-          echo "GOOGLE_ID=${{ secrets.GOOGLE_ID }}" >> $GITHUB_ENV
-          echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> $GITHUB_ENV
-          echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> $GITHUB_ENV
-          echo "NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}" >> $GITHUB_ENV
-          echo "NEXTAUTH_URL_INTERNAL=${{ secrets.NEXTAUTH_URL_INTERNAL }}" >> $GITHUB_ENV
-          echo "AUTH_SECRET=${{ secrets.AUTH_SECRET }}" >> $GITHUB_ENV
-          echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> $GITHUB_ENV
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
+          node-version: "18"
 
       - name: Install dependencies
-        working-directory: ./spar-med-samvittighed
         run: npm install
 
-      - name: Run npm run build
-        working-directory: ./spar-med-samvittighed
-        run: npx next build
+      - name: Start Next.js server
+        run: |
+          npx kill-port 3000 || true
+          npm run build
+          npm start -- --port 3000 &
+          npx wait-on http://localhost:3000 # Wait for server to be ready
 
-      - name: Start server
-        working-directory: ./spar-med-samvittighed
-        run: npm start &
+      - name: Run unit tests
         env:
-          NODE_ENV: test
-
-      - name: Wait for server to start
-        run: |
-          for i in {1..30}; do
-            if curl -sSf http://localhost:3000 > /dev/null; then
-              echo "Server is up!"
-              exit 0
-            fi
-            echo "Waiting for server... ($i)"
-            sleep 5
-          done
-          echo "Server did not start in time" >&2
-          exit 1
-
-      - name: Install Chrome dependencies (Linux only)
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            libnss3 \
-            libgconf-2-4 \
-            google-chrome-stable \
-            fonts-liberation \
-            libappindicator3-1 \
-            libasound2 \
-            libatk1.0-0 \
-            libcups2 \
-            libdbus-1-3 \
-            libx11-xcb1 \
-            libxcomposite1 \
-            libxdamage1 \
-            libxrandr2 \
-            xdg-utils
-
-      - name: Run tests
-        working-directory: ./spar-med-samvittighed
+          BASE_URL: http://localhost:3000
         run: npm test
+
+      - name: Run Selenium tests
         env:
-          CI: true
-          CHROME_BIN: /usr/bin/google-chrome
+          BASE_URL: http://localhost:3000
+        run: npm run selenium-tests
+
+  test-on-ubuntu:
+    runs-on: ubuntu-latest
+
+    services:
+      selenium:
+        image: selenium/standalone-chrome
+        options: >-
+          --detach
+          --publish 4444:4444
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Start Next.js server
+        run: |
+          npx kill-port 3000 || true
+          npm run build
+          npm start -- --port 3000 &
+          npx wait-on http://localhost:3000 # Wait for server to be ready
+
+      - name: Run unit tests
+        env:
+          BASE_URL: http://localhost:3000
+        run: npm test
+
+      - name: Run Selenium tests
+        env:
+          BASE_URL: http://localhost:3000
+        run: npm run selenium-tests
