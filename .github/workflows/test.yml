@@ -64,17 +64,6 @@ jobs:
             libnss3 \
             libgconf-2-4 \
             google-chrome-stable
-            fonts-liberation \
-            libappindicator3-1 \
-            libasound2 \
-            libatk1.0-0 \
-            libcups2 \
-            libdbus-1-3 \
-            libx11-xcb1 \
-            libxcomposite1 \
-            libxdamage1 \
-            libxrandr2 \
-            xdg-utils
 
       - name: Run tests
         working-directory: ./spar-med-samvittighed
