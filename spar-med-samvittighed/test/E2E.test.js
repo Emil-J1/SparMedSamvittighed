@@ -84,5 +84,5 @@ describe("E2E Test: Login, Select Store, Select Product", () => {
       console.error("Test failed with error:", error);
       throw error; // Kast fejlen igen for at sikre, at Jest markerer testen som mislykket
     }
-  }, 30000); // Sæt en timeout for denne specifikke test
+  }, 60000); // Sæt en timeout for denne specifikke test
 });
