@@ -50,7 +50,7 @@ jobs:
         run: npm install
 
       - name: Start development server
-        run: npm run dev
+        run: npm run dev &
         env:
           CI: true
 
