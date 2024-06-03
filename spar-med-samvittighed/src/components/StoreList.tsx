@@ -74,7 +74,7 @@ export default function StoreList({ zipCode }: StoreListProps) {
   }
 
   return (
-    <section className="py-10 px-10 w-full max-sm:w-screen gap-10 bg-stone-100">
+    <section className="py-10 max-sm:px-10 w-full max-sm:w-screen gap-10 bg-stone-100">
       <div className="grid lg:grid-cols-3 gap-6">
         {storeData &&
           storeData.length > 0 &&
