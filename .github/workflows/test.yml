@@ -1,27 +1,26 @@
-name: Next workflow
- 
+name: Run Tests (Test Branch)
+
 on:
   push:
     branches:
-      - main
+      - test
   pull_request:
     branches:
-      - main
- 
+      - test
+
 jobs:
-  run:
+  test:
     runs-on: ${{ matrix.os }}
- 
+
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
         node-version: [18.x]
- 
- 
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
- 
+
       - name: Cache node_modules
         uses: actions/cache@v2
         with:
@@ -29,7 +28,7 @@ jobs:
           key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-modules-
- 
+
       - name: Set up environment variables
         env:
           GOOGLE_ID: ${{ secrets.GOOGLE_ID }}
@@ -41,16 +40,16 @@ jobs:
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}          
         run: echo "Google ID is $GOOGLE_ID. GOOGLE client Secret $GOOGLE_CLIENT_SECRET. MONGODBURI IS $MONGODB_URI"
  
+
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
- 
+
       - name: Install dependencies
         working-directory: ./spar-med-samvittighed
         run: npm install
- 
-      - name: Run npm run build
-        working-directory: ./spar-med-samvittighed
-        run: npx next build
 
+      - name: Run tests
+        working-directory: ./spar-med-samvittighed
+        run: npm test
