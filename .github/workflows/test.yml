@@ -57,8 +57,17 @@ jobs:
       - name: Wait for server to start
         run: sleep 15
 
+      - name: Install Chrome dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libnss3 \
+            libgconf-2-4 \
+            google-chrome-stable
+
       - name: Run tests
         working-directory: ./spar-med-samvittighed
         run: npm test
         env:
           CI: true
+          CHROME_BIN: /usr/bin/google-chrome
