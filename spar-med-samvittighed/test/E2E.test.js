@@ -20,7 +20,7 @@ describe("E2E Test: Login, Select Store, Select Product", () => {
       .build();
 
     jest.setTimeout(20000); // Sæt en højere timeout for hele test-suiten
-  }, 20000); // Sæt en timeout for beforeAll
+  }, 10000); // Sæt en timeout for beforeAll
 
   afterAll(async () => {
     if (driver) {
