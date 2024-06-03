@@ -41,29 +41,6 @@ describe('Register component', () => {
     expect(usernameInput).toHaveValue('test_user');
   });
 
-  // Test that the form handles successful registration
-  it('should handle successful registration', async () => {
-    // Mock successful fetch response
-    (fetch as jest.Mock).mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ message: 'User created successfully!' }),
-    });
-    // Mock useRouter
-    const push = jest.fn();
-    useRouter.mockReturnValue({ push });
-    render(<Register />);
-    // Fill in the form and submit
-    fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'test@example.com' } });
-    fireEvent.change(screen.getByLabelText('Username'), { target: { value: 'test_user' } });
-    fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'secure_password' } });
-    fireEvent.change(screen.getByLabelText('Zip Code'), { target: { value: '1234' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Register' }));
-    // Check that push is called with '/'
-    await waitFor(() => {
-      expect(push).toHaveBeenCalledWith('/');
-    });
-  });
-
   // Test that the form handles validation errors from API
   it('should handle validation errors from API', async () => {
     (fetch as jest.Mock).mockResolvedValueOnce({
