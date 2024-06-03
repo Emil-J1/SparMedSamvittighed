@@ -7,10 +7,11 @@ on:
   pull_request:
     branches:
       - test
+
 jobs:
   test:
     runs-on: ${{ matrix.os }}
-    
+
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest]
@@ -74,9 +75,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install -y \
-            wget \
-            gnupg
+          sudo apt-get install -y wget gnupg
           wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
           sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
           sudo apt-get update
@@ -84,12 +83,28 @@ jobs:
         env:
           CI: true
 
-      - name: Install ChromeDriver (Linux only)
+      - name: Download ChromeDriver
         if: matrix.os == 'ubuntu-latest'
         run: |
-          sudo apt-get install -y unzip xvfb libxi6 libgconf-2-4
-          wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/91.0.4472.101/chromedriver_linux64.zip
-          sudo unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
+          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
+          CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION}")
+          wget -N https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip -P ~/
+          unzip ~/chromedriver_linux64.zip -d ~/
+          sudo mv -f ~/chromedriver /usr/local/bin/chromedriver
+          sudo chmod +x /usr/local/bin/chromedriver
+          chromedriver --version
+        env:
+          CI: true
+
+      - name: Download ChromeDriver (Windows only)
+        if: matrix.os == 'windows-latest'
+        run: |
+          $chrome_version = (Get-Item -Path "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe").VersionInfo.ProductVersion
+          $chrome_major_version = $chrome_version.Split('.')[0]
+          $chromedriver_version = Invoke-RestMethod -Uri "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$chrome_major_version"
+          Invoke-WebRequest -Uri "https://chromedriver.storage.googleapis.com/$chromedriver_version/chromedriver_win32.zip" -OutFile "chromedriver.zip"
+          Expand-Archive chromedriver.zip -DestinationPath "chromedriver"
+          Copy-Item -Path "chromedriver\chromedriver.exe" -Destination "C:\Windows\System32\chromedriver.exe"
         env:
           CI: true
 
@@ -99,3 +114,4 @@ jobs:
         env:
           CI: true
           CHROME_BIN: /usr/bin/google-chrome
+
