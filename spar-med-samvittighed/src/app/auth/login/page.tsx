@@ -39,7 +39,7 @@ export default function Login() {
           href="/register"
           className="flex flex-col items-center justify-center w-40"
         >
-          <button className="bg-white border border-black hover:bg-gray-800 hover:text-white transition ease-in-out duration-300 text-gray-800 font-bold mt-6 py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline self-center w-full">
+          <button className="bg-black border border-black hover:bg-white hover:text-black transition ease-in-out duration-300 text-white font-bold mt-6 py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline self-center w-full">
             Registrer dig
           </button>
         </Link>
