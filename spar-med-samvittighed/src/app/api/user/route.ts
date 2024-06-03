@@ -15,7 +15,7 @@ export async function POST(request: Request)
         const { id } = body;
 
         // Then valid data
-         // Validate data (basic example, you can add more validation)
+         // Validate data
         if (!id)  {
         throw new Error('ID is required');
       }
