@@ -50,7 +50,7 @@ jobs:
 
       - name: Run npm run build
         working-directory: ./spar-med-samvittighed
-        run: npx next build
+        run: npm run build
 
       - name: Start server
         working-directory: ./spar-med-samvittighed
@@ -91,3 +91,4 @@ jobs:
         env:
           CI: true
           CHROME_BIN: /usr/bin/google-chrome
+
