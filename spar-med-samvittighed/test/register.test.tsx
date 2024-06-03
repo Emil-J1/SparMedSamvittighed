@@ -4,16 +4,19 @@ import Register from "@/app/register/page";
 import fetchMock from "jest-fetch-mock";
 import { useRouter } from "next/router";
 
-// Mock the useRouter hook
 jest.mock("next/router", () => ({
   useRouter: () => ({
     push: jest.fn(),
-    pathname: "", // add other properties needed by your component
   }),
 }));
 
 // Mock the global fetch function
 fetchMock.enableMocks(); // Enable fetch mock
+
+// Mock the global fetch function
+jest.mock("next/router", () => ({
+  useRouter: jest.fn(),
+}));
 
 describe("Register component", () => {
   beforeEach(() => {
