@@ -1,12 +1,12 @@
-name: Next workflow
+name: run test
 
 on:
   push:
     branches:
-      - main
+      - test
   pull_request:
     branches:
-      - main
+      - test
 
 jobs:
   run:
