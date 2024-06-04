@@ -1,5 +1,7 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 interface Clearance {
   offer: {
@@ -36,23 +38,32 @@ const Product: React.FC<ProductPageProps> = ({ storeId, productId }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = '034a1ccb-ee77-48b1-a842-31d34068d90a'; // Replace with your actual bearer token
-        const response = await fetch(`https://api.sallinggroup.com/v1/food-waste/${storeId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`
+        const token = "034a1ccb-ee77-48b1-a842-31d34068d90a"; // Replace with your actual bearer token
+        const response = await fetch(
+          `https://api.sallinggroup.com/v1/food-waste/${storeId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
-        });
+        );
         if (!response.ok) {
-          throw new Error('Failed to fetch data');
+          throw new Error("Failed to fetch data");
         }
         const result = await response.json();
-        
+
         // Find the specific product in the response
-        const specificProduct = result.clearances.find((clearance: Clearance) => clearance.product.ean === productId);
-        
+        const specificProduct = result.clearances.find(
+          (clearance: Clearance) => clearance.product.ean === productId
+        );
+
         setData(specificProduct);
-      } catch (error:any) {
-        setError(error instanceof Error ? error : new Error('Beklager men butikken kunne ikke findes.'));
+      } catch (error: any) {
+        setError(
+          error instanceof Error
+            ? error
+            : new Error("Beklager men butikken kunne ikke findes.")
+        );
       } finally {
         setIsLoading(false);
       }
@@ -62,7 +73,12 @@ const Product: React.FC<ProductPageProps> = ({ storeId, productId }) => {
   }, [storeId, productId]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex flex-col justify-center items-center">
+        <h3 className="text-2xl font-bold mb-5 text-white">Indlæser</h3>
+        <Image src="/loading.gif" alt="Indlæser" width={30} height={30} />
+      </div>
+    );
   }
 
   if (error) {
@@ -70,30 +86,72 @@ const Product: React.FC<ProductPageProps> = ({ storeId, productId }) => {
   }
 
   if (!data) {
-    return <div>No product found.</div>;
+    return (
+      <p className="text-2xl font-medium m-4 text-white">
+        Produktet kunne ikke findes.
+      </p>
+    );
   }
 
   return (
-    <article className="max-w-md mx-auto bg-white shadow-md overflow-hidden md:max-w-2xl p-2">
-      <div className="md:flex">
-        <div className="md:flex-shrink-0">
-          <img className="w-full object-cover md:w-48" src={data.product.image} alt={data.product.description} />
-        </div>
-        <div className="p-8 text-gray-700">
-          <h3 className="text-2xl font-bold mb-2">{data.product.description}</h3>
-          <p className="mb-4">Kategori: {data.product.categories.en}</p>
-          <p><b>Pris:</b> {data.offer.newPrice} {data.offer.currency}</p>
-          <p><b>Gammel pris:</b> {data.offer.originalPrice} {data.offer.currency}</p>
-          <p><b>Besparelse:</b>{data.offer.discount} {data.offer.currency} ({data.offer.percentDiscount}%)</p>
-          <p><b>Antal tilbage:</b> {data.offer.stock}</p>
-          <p><b>Sat på tilbud den:</b> {new Date(data.offer.startTime).toLocaleString()}</p>
-          <p><b>Tilbudet slutter:</b> {new Date(data.offer.endTime).toLocaleString()}</p>
-          <p><b>Tilbuddet blev sidst opdateret den:</b> {new Date(data.offer.lastUpdate).toLocaleString()}</p>
-        </div>
+    <article className="flex flex-col items-center justify-center w-screen rounded-2xl w-full max-w-md bg-stone-100 max-sm:w-4/5 text-center my-5">
+      <div className="flex justify-center pt-8 mx-2 gap-5">
+        <Link href={`/stores/${storeId}`}>
+          <button className="text-black text-2xl font-bold focus:shadow-outline">
+            ←
+          </button>
+        </Link>
+        <h1 className="w-full text-2xl font-bold mb-4 text-green-800">
+          {data.product.description}
+        </h1>
+      </div>
+      <img
+        className="max-h-35 max-sm:w-3/5 self-center my-10 max-sm:my-5"
+        src={data.product.image}
+        alt={data.product.description}
+        style={{
+          display: data.product.image ? "block" : "none",
+        }}
+      />
+      <div className="p-8 text-gray-800 text-left flex flex-col gap-2">
+        <p
+          className="mb-4"
+          style={{
+            display: data.product.categories.en ? "block" : "none",
+          }}
+        >
+          {" "}
+          <b>Kategori:</b> {data.product.categories.en}
+        </p>
+        <p>
+          <b>Pris:</b> {data.offer.newPrice} {data.offer.currency}
+        </p>
+        <p>
+          <b>Gammel pris:</b> {data.offer.originalPrice} {data.offer.currency}
+        </p>
+        <p>
+          <b>Besparelse:</b>
+          {data.offer.discount} {data.offer.currency} (
+          {data.offer.percentDiscount}%)
+        </p>
+        <p
+          style={{
+            display: data.offer.stock <= 70 ? "block" : "none",
+          }}
+        >
+          <b>Antal tilbage:</b> {data.offer.stock}
+        </p>
+        <p>
+          <b>Sat på tilbud den:</b>{" "}
+          {new Date(data.offer.startTime).toLocaleDateString("da-DK")}
+        </p>
+        <p>
+          <b>Tilbudet slutter:</b>{" "}
+          {new Date(data.offer.endTime).toLocaleDateString("da-DK")}
+        </p>
       </div>
     </article>
   );
 };
 
 export default Product;
-

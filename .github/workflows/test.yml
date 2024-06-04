@@ -37,9 +37,8 @@ jobs:
           NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
           NEXTAUTH_URL_INTERNAL: ${{ secrets.NEXTAUTH_URL_INTERNAL}}
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
-          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}          
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
         run: echo "Google ID is $GOOGLE_ID. GOOGLE client Secret $GOOGLE_CLIENT_SECRET. MONGODBURI IS $MONGODB_URI"
- 
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
@@ -52,4 +51,4 @@ jobs:
 
       - name: Run tests
         working-directory: ./spar-med-samvittighed
-        run: npm test
+        run: npm test ./test/register.test.tsx

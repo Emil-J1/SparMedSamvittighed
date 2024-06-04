@@ -62,7 +62,7 @@ export default function StoreList({ zipCode }: StoreListProps) {
   if (isLoading) {
     return (
       <section className="flex flex-col justify-center items-center">
-        <h3 className="text-xl mb-5">Indlæser</h3>
+        <h3 className="text-2xl font-medium mb-5 text-green-800">Indlæser</h3>
       </section>
     );
   }
@@ -74,23 +74,24 @@ export default function StoreList({ zipCode }: StoreListProps) {
   }
 
   return (
-    <div className="py-10 px-10 text-gray-700">
-      <div className="grid lg:grid-cols-3 gap-4">
+    <section className="py-10 max-sm:px-10 w-full max-sm:w-screen gap-10 bg-stone-100">
+      <div className="grid lg:grid-cols-3 gap-6">
         {storeData &&
           storeData.length > 0 &&
           storeData.map((store) => (
-            <div
+            <article
               key={store.store.id}
-              className="bg-white text-black py-10 p-4 border rounded-lg"
+              className="bg-green-800 text-white py-10 p-4 border rounded-lg"
             >
               <a href={`stores/${store.store.id}/`}>
-                <h1 className="flex justify-center text-xl mb-4">
+                <h2 className="flex justify-center text-xl font-bold mb-4">
                   {store.store.name}
-                </h1>
+                </h2>
                 <h3>
                   {store.store.address.city} - {store.store.address.zip}
                 </h3>
-                <h3>{store.store.address.street}</h3>
+                <h3 className="pb-5">{store.store.address.street}</h3>
+                <hr/>
                 <div className="flex justify-between pt-5">
                   <h3>
                     Åbningstider: <br /> {new Intl.DateTimeFormat("da-DK", {
@@ -113,9 +114,9 @@ export default function StoreList({ zipCode }: StoreListProps) {
                   </h3>
                 </div>
               </a>
-            </div>
+            </article>
           ))}
       </div>
-    </div>
+    </section>
   );
 }
