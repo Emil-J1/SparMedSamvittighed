@@ -62,6 +62,8 @@ jobs:
         working-directory: ./spar-med-samvittighed
         env:
           SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
+          # Assuming your application runs on port 8080
+          APP_URL: http://localhost:3000
         run: |
           export DISPLAY=:99
           npm test

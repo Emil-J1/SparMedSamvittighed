@@ -5,12 +5,7 @@ describe("E2E Test: Login, Select Store, Select Product", () => {
   let driver;
 
   beforeAll(async () => {
-    const seleniumUrl =
-      process.env.SELENIUM_REMOTE_URL || "http://localhost:4444/wd/hub";
-    driver = await new Builder()
-      .forBrowser("chrome")
-      .usingServer(seleniumUrl)
-      .build();
+    driver = await new Builder().forBrowser("chrome").build();
     jest.setTimeout(10000); // Set a higher timeout for the entire test suite
   });
 
