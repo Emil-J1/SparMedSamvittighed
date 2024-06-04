@@ -49,6 +49,31 @@ jobs:
         working-directory: ./spar-med-samvittighed
         run: npm install
 
+      - name: Install Chrome and ChromeDriver on Ubuntu
+        if: runner.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget unzip xvfb
+          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+          CHROME_VERSION=$(google-chrome-stable --version | grep -oP '\d+\.\d+\.\d+')
+          wget -N https://chromedriver.storage.googleapis.com/${CHROME_VERSION}/chromedriver_linux64.zip
+          unzip chromedriver_linux64.zip
+          sudo mv chromedriver /usr/local/bin/chromedriver
+          sudo chmod +x /usr/local/bin/chromedriver
+
+      - name: Install ChromeDriver on Windows
+        if: runner.os == 'windows-latest'
+        run: choco install chromedriver --version 2.42
+
+      - name: Set up display server on Ubuntu
+        if: runner.os == 'ubuntu-latest'
+        run: |
+          Xvfb :99 -ac &
+          export DISPLAY=:99
+
       - name: Run npm run build
         working-directory: ./spar-med-samvittighed
         run: npx next build
