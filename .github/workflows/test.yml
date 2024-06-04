@@ -51,4 +51,4 @@ jobs:
 
       - name: Run tests
         working-directory: ./spar-med-samvittighed
-        run: npm test .\test\register.test.tsx
+        run: npm test ./test/register.test.tsx
