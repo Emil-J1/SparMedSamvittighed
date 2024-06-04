@@ -3,9 +3,14 @@ const { expect } = require("@jest/globals");
 
 describe("E2E Test: Login, Select Store, Select Product", () => {
   let driver;
-  //test
+
   beforeAll(async () => {
-    driver = await new Builder().forBrowser("chrome").build();
+    const seleniumUrl =
+      process.env.SELENIUM_REMOTE_URL || "http://localhost:4444/wd/hub";
+    driver = await new Builder()
+      .forBrowser("chrome")
+      .usingServer(seleniumUrl)
+      .build();
     jest.setTimeout(10000); // Set a higher timeout for the entire test suite
   });
 
