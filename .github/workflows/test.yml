@@ -53,21 +53,13 @@ jobs:
         working-directory: ./spar-med-samvittighed
         run: npx next build
 
-      - name: Start Selenium in Docker
-        run: |
-          docker pull selenium/standalone-chrome
-          docker run -d --name selenium -p 4444:4444 selenium/standalone-chrome
+      - name: Install Selenium WebDriver
+        run: npm install selenium-webdriver
 
       - name: Run tests
         working-directory: ./spar-med-samvittighed
         env:
-          SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
-          # Assuming your application runs on port 8080
-          APP_URL: http://localhost:3000
+          SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub # Assuming your Selenium server runs here
         run: |
           export DISPLAY=:99
           npm test
-
-      - name: Stop Selenium container
-        if: always()
-        run: docker stop selenium && docker rm selenium
