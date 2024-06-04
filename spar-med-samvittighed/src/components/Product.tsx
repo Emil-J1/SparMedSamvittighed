@@ -95,13 +95,13 @@ const Product: React.FC<ProductPageProps> = ({ storeId, productId }) => {
 
   return (
     <article className="flex flex-col items-center justify-center w-screen rounded-2xl w-full max-w-md bg-stone-100 max-sm:w-4/5 text-center my-5">
-      <div className="flex justify-center pt-8 mx-2 gap-5">
+      <div className="flex justify-evenly items-center pt-8 gap-5">
         <Link href={`/stores/${storeId}`}>
-          <button className="text-black text-2xl font-bold focus:shadow-outline">
+          <button className="text-black text-3xl font-bold focus:shadow-outline ml-0 max-sm:ml-3">
             ←
           </button>
         </Link>
-        <h1 className="w-full text-2xl font-bold mb-4 text-green-800">
+        <h1 className="w-full text-2xl font-bold text-green-800">
           {data.product.description}
         </h1>
       </div>
