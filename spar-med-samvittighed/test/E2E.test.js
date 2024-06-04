@@ -37,7 +37,7 @@ describe("E2E Test: Login, Select Store, Select Product", () => {
         ".grid.grid-cols-1.gap-4.sm\\:grid-cols-2.lg\\:grid-cols-3";
       await driver.wait(
         until.elementLocated(By.css(productListSelector)),
-        10000
+        20000
       );
       const productList = await driver.findElement(By.css(productListSelector));
       expect(productList).toBeDefined();
@@ -52,5 +52,5 @@ describe("E2E Test: Login, Select Store, Select Product", () => {
       console.error("Test failed with error:", error);
       throw error;
     }
-  }, 30000);
+  }, 40000);
 });

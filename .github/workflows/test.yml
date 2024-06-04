@@ -11,7 +11,7 @@ on:
 jobs:
   run:
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 60  # Increase the timeout to 60 minutes
+    timeout-minutes: 60 # Increase the timeout to 60 minutes
 
     strategy:
       matrix:
@@ -38,7 +38,7 @@ jobs:
           NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
           NEXTAUTH_URL_INTERNAL: ${{ secrets.NEXTAUTH_URL_INTERNAL}}
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
-          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}          
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
         run: echo "Google ID is $GOOGLE_ID. GOOGLE client Secret $GOOGLE_CLIENT_SECRET. MONGODBURI IS $MONGODB_URI"
 
       - name: Setup Node.js
@@ -83,6 +83,5 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: npm test
         env:
-          SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
+          SELENIUM_REMOTE_URL: http://localhost:3000/auth/login
         working-directory: ./spar-med-samvittighed
-
