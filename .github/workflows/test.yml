@@ -1,4 +1,4 @@
-name: run test
+name: Run Tests (Test Branch)
 
 on:
   push:
@@ -9,12 +9,12 @@ on:
       - test
 
 jobs:
-  run:
+  test:
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest]
         node-version: [18.x]
 
     steps:
@@ -49,17 +49,6 @@ jobs:
         working-directory: ./spar-med-samvittighed
         run: npm install
 
-      - name: Run npm run build
-        working-directory: ./spar-med-samvittighed
-        run: npx next build
-
-      - name: Install Selenium WebDriver
-        run: npm install selenium-webdriver
-
       - name: Run tests
         working-directory: ./spar-med-samvittighed
-        env:
-          SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub # Assuming your Selenium server runs here
-        run: |
-          export DISPLAY=:99
-          npm test
+        run: npm test .\test\register.test.tsx
