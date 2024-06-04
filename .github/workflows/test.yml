@@ -1,17 +1,16 @@
-name: Run Tests (Test Branch)
+name: Next workflow
 
 on:
   push:
     branches:
-      - test
+      - main
   pull_request:
     branches:
-      - test
+      - main
 
 jobs:
   run:
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 60 # Increase the timeout to 60 minutes
 
     strategy:
       matrix:
@@ -54,34 +53,6 @@ jobs:
         working-directory: ./spar-med-samvittighed
         run: npx next build
 
-      - name: Install Chrome
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-
-      - name: Install ChromeDriver
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          sudo apt-get install -yqq unzip
-          wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE)/chromedriver_linux64.zip
-          sudo unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
-
-      - name: Run Selenium WebDriver tests
-        run: npm test
-        env:
-          SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
+      - name: run test
         working-directory: ./spar-med-samvittighed
-
-      - name: Install Chrome on Windows
-        if: matrix.os == 'windows-latest'
-        run: |
-          choco install googlechrome -y
-          choco install chromedriver -y --version 2.46
-
-      - name: Run Selenium WebDriver tests on Windows
-        if: matrix.os == 'windows-latest'
         run: npm test
-        env:
-          SELENIUM_REMOTE_URL: http://localhost:3000/auth/login
-        working-directory: ./spar-med-samvittighed
