@@ -110,19 +110,21 @@ const StoreProductList: React.FC<StoreProductListProps> = ({ storeId }) => {
   return (
     <section className="text-center px-10 w-3/5 max-sm:w-screen">
       <div className="flex justify-center p-3">
-        <div className="bg-white backdrop-blur bg-opacity-25 rounded-lg">
+        <div className="bg-white backdrop-blur bg-opacity-25 rounded-lg flex gap-2">
+          <div className="flex justify-center items-center m-2">
+          <Link href={`/stores`}>
+              <button className="text-black text-2xl font-bold focus:shadow-outline">
+                ←
+              </button>
+            </Link>
+          </div>
+          <div className="m-2">
           <h2 className="text-3xl font-bold mb-2 text-black">
             {storeData.store.name}
           </h2>
           <h2 className="text-xl font-medium text-black">
             {storeData.store.address.street}
           </h2>
-          <div>
-            <Link href={`/stores/${storeId}`}>
-              <button className="text-black text-2xl font-bold focus:shadow-outline">
-                ←
-              </button>
-            </Link>
           </div>
         </div>
       </div>
